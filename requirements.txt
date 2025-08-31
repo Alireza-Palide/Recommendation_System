@@ -2,11 +2,11 @@ black[jupyter]==24.10.0
 isort==6.0.1
 pre-commit==v4.2.0
 
-pandas
-numpy
-sqlalchemy
-pyodbc
-scikit-learn
-matplotlib
-seaborn
-python-dotenv
+pandas==2.2.2
+numpy==1.26.4
+sqlalchemy==2.0.30
+pyodbc==5.1.0
+scikit-learn==1.5.0
+matplotlib==3.8.4
+seaborn==0.13.2
+python-dotenv==1.0.1
