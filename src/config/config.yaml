@@ -13,7 +13,7 @@ rfm_columns:
 recency_reference_date: "2024-12-20"
 
 clustering:
-  method: "kmeans"
+  method: "minibatchkmeans"
   max_clusters: 10
 
 drift:

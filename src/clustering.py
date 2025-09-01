@@ -2,7 +2,7 @@ from pathlib import Path
 
 import joblib
 import pandas as pd
-from sklearn.cluster import KMeans, MiniBatchKMeans
+from sklearn.cluster import KMeans, MiniBatchKMeans, kmeans_plusplus
 from sklearn.metrics import silhouette_score
 
 from src.config.config_loader import get_config  # type: ignore
@@ -18,9 +18,9 @@ MODEL_PATH = Path("models/kmeans_model.pkl")
 def get_clustering_model(method: str, n_clusters: int):
 
     if method == "kmeans":
-        return KMeans(n_clusters=n_clusters, random_state=42)
+        return KMeans(n_clusters=n_clusters, random_state=40)
     elif method == "minibatchkmeans":
-        return MiniBatchKMeans(n_clusters=n_clusters, random_state=42, batch_size=1024)
+        return MiniBatchKMeans(n_clusters=n_clusters, random_state=145, batch_size=1024)
     else:
         raise ValueError(f"Unsupported clustering method: {method}")
 
@@ -32,7 +32,7 @@ def find_optimal_k(data: pd.DataFrame, max_k: int = 10):
     best_score = -1
 
     for k in range(3, max_k + 1):
-        model = KMeans(n_clusters=k, random_state=42)
+        model = MiniBatchKMeans(n_clusters=k, random_state=145)
         labels = model.fit_predict(data)
         score = silhouette_score(data, labels)
         logger.info(f"Silhouette score for k={k}: {score:.4f}")
@@ -69,10 +69,10 @@ def cluster_rfm_data(data: pd.DataFrame) -> pd.DataFrame:
     return data_with_labels
 
 
-def load_saved_model():
+def load_saved_model(Path=MODEL_PATH):
     if MODEL_PATH.exists():
-        logger.info(f"Loading clustering model from {MODEL_PATH}")
-        return joblib.load(MODEL_PATH)
+        logger.info(f"Loading clustering model from {Path}")
+        return joblib.load(Path)
     else:
-        logger.warning("No saved clustering model found.")
+        logger.warning(f"No saved clustering model found. Path: {Path}")
         return None
