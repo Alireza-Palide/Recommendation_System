@@ -1,0 +1,20 @@
+sql:
+  driver: "ODBC Driver 17 for SQL Server"
+  table: "CustomerData"
+  chunk_size: 1000
+
+rfm_columns:
+  customer_id: "CustomerCode"
+  recency: "Recency"
+  frequency: "Frequency"
+  monetary: "MonetaryValue"
+  return_rate: "ReturnRate"
+
+recency_reference_date: "2024-12-20"
+
+clustering:
+  method: "kmeans"
+  max_clusters: 10
+
+drift:
+  threshold_RFM: 0.1
